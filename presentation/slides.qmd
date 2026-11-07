@@ -1,0 +1,28 @@
+---
+title: "BDA Project: TITLE"
+author: "Member 1, Member 2, Member 3"
+format:
+  revealjs:
+    slide-number: true
+    embed-resources: true
+execute:
+  echo: false
+---
+
+<!-- 15 minutes + 5-10 min questions. Every member presents a part.
+     Last slide must be a summary / take-home messages, not just "Thank you". -->
+
+## Problem and data
+
+## Models and priors
+
+## Diagnostics and posterior predictive checks
+
+## Sensitivity and model comparison
+
+## Results
+
+## Take-home messages
+
+- ...
+- Contact / repo link

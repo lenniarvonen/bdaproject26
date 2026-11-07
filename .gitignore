@@ -1,0 +1,66 @@
+# ---- OS / editors ----
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# ---- R / RStudio ----
+.Rproj.user/
+.Rhistory
+.RData
+.Rdata
+.Ruserdata
+*.Rproj
+.Renviron
+renv/library/
+renv/local/
+renv/staging/
+*.rds
+!data/**/*.rds
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.python-version
+
+# ---- Quarto / knitr / LaTeX ----
+/.quarto/
+**/.quarto/
+*_files/
+*_cache/
+_freeze/
+_site/
+*.html
+*.pdf
+*.tex
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# ---- Stan / CmdStan build artifacts and draws ----
+models/*
+!models/*.stan
+!models/README.md
+*.hpp
+*.o
+output-*.csv
+
+# ---- Project outputs (reproducible, not committed) ----
+output/fits/*
+output/figures/*
+!output/**/.gitkeep
+
+# ---- Secrets ----
+.env

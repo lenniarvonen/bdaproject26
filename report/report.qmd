@@ -1,0 +1,151 @@
+---
+title: "BDA Project: TITLE"
+subtitle: "CS-E5710 Bayesian Data Analysis, Aalto University, 2026"
+author:
+  - "Member 1"
+  - "Member 2"
+  - "Member 3"
+date: today
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+bibliography: references.bib
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+<!-- Max 20 pages. Put full diagnostics and long code in the appendix. -->
+
+```{r}
+#| label: setup
+library(brms)
+library(posterior)
+library(bayesplot)
+library(loo)
+library(priorsense)
+library(tidyverse)
+options(brms.backend = "cmdstanr", mc.cores = 4)
+fit_dir <- here::here("output", "fits")
+theme_set(bayesplot::theme_default())
+```
+
+# Introduction
+
+Motivation, the problem, and the main modelling idea. An illustrative figure helps.
+
+# Data
+
+Source, how it was collected and preprocessed, and whether it has been analysed
+online before (cite it and explain how this analysis differs).
+
+```{r}
+#| label: data
+#| eval: false
+d <- read_csv(here::here("data", "processed", "data.csv"))
+```
+
+# Models
+
+At least two models, e.g. a non-hierarchical and a hierarchical one. Write each
+model in mathematical notation.
+
+# Priors
+
+Proper priors for every parameter, with a justification (weakly informative or
+informative). List any default priors left unchanged; note that brms uses flat
+priors for regression coefficients by default.
+
+```{r}
+#| label: priors
+#| eval: false
+priors_m1 <- c(
+  prior(normal(0, 1), class = "b"),
+  prior(normal(0, 2.5), class = "Intercept"),
+  prior(exponential(1), class = "sigma")
+)
+```
+
+# Model code
+
+```{r}
+#| label: fit-models
+#| eval: false
+m1 <- brm(y ~ x, data = d, prior = priors_m1,
+          chains = 4, iter = 2000, warmup = 1000, seed = 2026,
+          file = file.path(fit_dir, "m1"))
+m2 <- brm(y ~ x + (1 | group), data = d, prior = priors_m2,
+          chains = 4, iter = 2000, warmup = 1000, seed = 2026,
+          file = file.path(fit_dir, "m2"))
+```
+
+# Inference details
+
+Chains, iterations, warmup, and the exact sampling call used.
+
+# Convergence diagnostics
+
+R-hat, bulk/tail ESS, and divergences for all models. Summarise when there are
+no problems, and describe any fixes.
+
+```{r}
+#| label: convergence
+#| eval: false
+summarise_draws(as_draws_df(m1), default_convergence_measures())
+nuts_params(m1) |> filter(Parameter == "divergent__") |> summarise(sum(Value))
+```
+
+# Posterior predictive checks
+
+Checks suited to the outcome type (density overlays for continuous data,
+calibration plots for binary/ordinal, rootograms for counts).
+
+```{r}
+#| label: ppc
+#| eval: false
+pp_check(m1, ndraws = 100)
+```
+
+# Prior sensitivity analysis
+
+```{r}
+#| label: sensitivity
+#| eval: false
+powerscale_sensitivity(m1)
+```
+
+# Model comparison
+
+PSIS-LOO with uncertainty, plus practical measures where relevant. State the
+preferred model and why.
+
+```{r}
+#| label: loo
+#| eval: false
+loo_compare(loo(m1), loo(m2))
+```
+
+# Conclusion and discussion
+
+Key findings tied to the research question, limitations, issues met, possible
+improvements, and what the group learned.
+
+# Self-reflection
+
+# AI use disclosure
+
+See `docs/ai_disclosure.md`.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+# Appendix {.appendix}
